@@ -1,10 +1,17 @@
 import RootLayout from '@/layouts/root'
-import Onboarding from './onboarding'
+
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { routes } from '@/routes'
+import Providers from '@/compoennts/providers'
+
+const router = createBrowserRouter(routes)
 
 export default function Popup() {
     return (
-        <RootLayout>
-            <Onboarding />
-        </RootLayout>
+        <Providers>
+            <RootLayout>
+                <RouterProvider router={router} />
+            </RootLayout>
+        </Providers>
     )
 }
