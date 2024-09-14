@@ -1,0 +1,35 @@
+@font-face {
+    font-family: 'LINE Seed Sans';
+    src: url('./LINESeedSans_W_Rg.woff2') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'LINE Seed Sans';
+    src: url('./LINESeedSans_W_Th.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LINE Seed Sans';
+    src: url('./LINESeedSans_W_He.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LINE Seed Sans';
+    src: url('./LINESeedSans_W_Bd.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LINE Seed Sans';
+    src: url('./LINESeedSans_W_XBd.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
