@@ -18,6 +18,7 @@ export default defineManifest(async env => ({
         {
             matches: ['http://localhost:*/*'],
             js: ['src/scripts/hello.ts'],
+            run_at: 'document_start',
         },
     ],
     // icons: {

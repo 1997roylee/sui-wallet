@@ -32,11 +32,7 @@ export const routes = [
     },
     {
         path: '/onboarding',
-        element: (
-            <div>
-                <Outlet />
-            </div>
-        ),
+        element: <Outlet />,
         errorElement: <Error />,
         children: [
             {

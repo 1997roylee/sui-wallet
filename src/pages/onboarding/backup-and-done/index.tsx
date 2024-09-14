@@ -1,9 +1,11 @@
 import { useConnection } from '@/compoennts/connection-provider'
 import { Button } from '@/compoennts/ui/button'
+import { Checkbox } from '@/compoennts/ui/check-box'
+import { Label } from '@/compoennts/ui/label'
+import OnboardingLayout from '@/layouts/onboarding'
 import { cn } from '@/lib/utils'
 import { getWalletCommand } from '@/scripts/background/commands'
 import Vault from '@/services/vault'
-import { Checkbox } from '@radix-ui/react-checkbox'
 import React, { useEffect, useState } from 'react'
 
 const BackupPhrase: React.FC<{ phrase: string }> = ({ phrase }) => {
@@ -51,15 +53,18 @@ export default function Page() {
         })()
     }, [connection])
     return (
-        <div>
+        <OnboardingLayout>
             <h2>Your 12-Word Backup Phrase</h2>
             <p>
                 Write these words down in order and keep them safe. Do not share
                 this phrase with anyone.
             </p>
             {mnemonic && <BackupPhrase phrase={mnemonic} />}
-            <Checkbox> I saved my backup phrase</Checkbox>
-            <Button>Continue</Button>
-        </div>
+           <div className="flex">
+           <Checkbox id='saved'/>
+           <Label htmlFor='saved'>I saved my backup phrase</Label>
+           </div>
+            <Button size='lg'>Continue</Button>
+        </OnboardingLayout>
     )
 }

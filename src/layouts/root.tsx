@@ -4,10 +4,11 @@ import { PropsWithChildren } from 'react'
 
 export default function RootLayout({ children }: PropsWithChildren) {
     return (
-        <div className="w-96 h-96 flex flex-col">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
+        <div className="min-w-[360px] min-h-[600px] flex flex-col">
+            {children}
+            {/* <Header />
+            <div className="flex-1 flex flex-col">{children}</div>
+            <Footer /> */}
         </div>
     )
 }

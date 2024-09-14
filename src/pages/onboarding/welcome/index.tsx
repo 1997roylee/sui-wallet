@@ -1,29 +1,34 @@
-// import VaultWallet from '@/services/super-wallet'
-// import { useEffect } from 'react'
-
 import { Button } from '@/compoennts/ui/button'
+import { Heading } from '@/compoennts/ui/heading'
+import OnboardingLayout from '@/layouts/onboarding'
 import { Link } from 'react-router-dom'
 
 export default function Page() {
-    // useEffect(() => {
-    //     ;(async () => {
-    //         const mneonic = await VaultWallet.generateWalletMnemonic()
-    //     })()
-    // }, [])
+
+
 
     return (
-        <div className="flex flex-col">
+        <OnboardingLayout showStep={false}>
             <div className="flex-1">
-                <p>Sui Wallet</p>
-                <p>A friendly Sui wallet built for DeFi, NFTs & Gamefi</p>
+                <Heading align="center" size="h3">
+                    Sui Wallet
+                </Heading>
+                <Heading align="center">
+                    A friendly Sui wallet built for DeFi, NFTs & Gamefi
+                </Heading>
             </div>
             <div className="flex flex-col gap-3">
-                <Link to="/onboarding/new-account">
-                    <Button>Create a new wallet</Button>
+                <Link to="/onboarding/new-account" className="w-full">
+                    <Button size="lg" className="w-full">
+                        Create a new wallet
+                    </Button>
                 </Link>
-                <Button>I already have a wallet</Button>
-                {/* <Button>Open New Account</Button> */}
+                <Link to="/onboarding/new-account" className="w-full">
+                    <Button size="lg" className="w-full" variant="outline">
+                        Create a new wallet
+                    </Button>
+                </Link>
             </div>
-        </div>
+        </OnboardingLayout>
     )
 }
