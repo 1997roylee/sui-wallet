@@ -2,7 +2,7 @@ import { PropsWithChildren, ReactNode, Suspense } from 'react'
 
 const FullPageLoading = () => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-90">
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-50 bg-opacity-90">
             <div className="text-white">Loading...</div>
         </div>
     )

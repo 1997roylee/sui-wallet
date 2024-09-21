@@ -1,12 +1,18 @@
 import { useConnection } from '@/compoennts/connection-provider'
 import { Button } from '@/compoennts/ui/button'
 import { Checkbox } from '@/compoennts/ui/check-box'
+import { Heading } from '@/compoennts/ui/heading'
 import { Label } from '@/compoennts/ui/label'
 import OnboardingLayout from '@/layouts/onboarding'
 import { cn } from '@/lib/utils'
-import { getWalletCommand } from '@/scripts/background/commands'
-import Vault from '@/services/vault'
-import React, { useEffect, useState } from 'react'
+import {
+    createWalletCommand,
+    revealMnemonicCommand,
+} from '@/scripts/background/commands'
+import { login } from '@/stores/app.store'
+import { Wallet } from '@/utils/core/wallet'
+import React, { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const BackupPhrase: React.FC<{ phrase: string }> = ({ phrase }) => {
     const [blur, setBlur] = useState(true)
@@ -18,7 +24,10 @@ const BackupPhrase: React.FC<{ phrase: string }> = ({ phrase }) => {
                 {words.map((word, index) => (
                     <div
                         key={index}
-                        className={cn('border bg-gray-50', blur && 'blur-sm')}
+                        className={cn(
+                            'border bg-gray-50 px-3 py-1.5 text-lg rounded-lg flex gap-1.5',
+                            blur && 'blur-sm',
+                        )}
                     >
                         <span>{index + 1}.</span>
                         <span>{word}</span>
@@ -26,7 +35,7 @@ const BackupPhrase: React.FC<{ phrase: string }> = ({ phrase }) => {
                 ))}
             </div>
             {blur && (
-                <div className="absolute top-0 left-0 bottom-0 right-0 ">
+                <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center">
                     <Button onClick={() => setBlur(false)}>View</Button>
                 </div>
             )}
@@ -38,33 +47,69 @@ const BackupPhrase: React.FC<{ phrase: string }> = ({ phrase }) => {
 export default function Page() {
     const [mnemonic, setMnemonic] = useState<string | null>(null)
     const connection = useConnection()
+    const navigate = useNavigate()
+
+    const app = useRef<{
+        walletId: string | null
+        accountId: number | null
+        networkId: number | null
+    }>({
+        walletId: null,
+        accountId: null,
+        networkId: null,
+    })
     useEffect(() => {
-        console.log('connection', connection)
         if (!connection) {
             throw new Error('Connection not found')
         }
 
         if (mnemonic) return
         ;(async () => {
-            const wallet = await connection.send<Vault>(getWalletCommand())
+            const wallet = await connection.send<Wallet>(createWalletCommand())
             // setMnemonic(wallet.keyPair.getSecretKey)
             console.log('wallet', wallet)
-            setMnemonic(wallet.mnemonic)
+
+            const mnemonic: string = await connection.send(
+                revealMnemonicCommand(wallet.encryptMnemonic),
+            )
+            console.log('mnemonic', mnemonic)
+
+            setMnemonic(mnemonic)
+            app.current = {
+                walletId: wallet.id,
+                accountId: 0,
+                networkId: 0,
+            }
         })()
     }, [connection])
+
+    const handleDone = () => {
+        login(
+            app.current.walletId!,
+            app.current.accountId!,
+            app.current.networkId!,
+        )
+        navigate('/home')
+    }
+
     return (
         <OnboardingLayout>
-            <h2>Your 12-Word Backup Phrase</h2>
-            <p>
+            <Heading>Your 12-Word Backup Phrase</Heading>
+            <Heading align="center">
                 Write these words down in order and keep them safe. Do not share
                 this phrase with anyone.
-            </p>
+            </Heading>
             {mnemonic && <BackupPhrase phrase={mnemonic} />}
-           <div className="flex">
-           <Checkbox id='saved'/>
-           <Label htmlFor='saved'>I saved my backup phrase</Label>
-           </div>
-            <Button size='lg'>Continue</Button>
+            <div className="flex">
+                <Checkbox id="saved" />
+                <Label htmlFor="saved">I saved my backup phrase</Label>
+            </div>
+            <Button size="lg" onClick={handleDone}>
+                Continue
+            </Button>
+            <Button size="lg" variant="outline">
+                Copy to clipboard
+            </Button>
         </OnboardingLayout>
     )
 }

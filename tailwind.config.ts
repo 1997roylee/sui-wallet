@@ -12,6 +12,9 @@ export default {
             },
         },
         extend: {
+            boxShadow:{
+                '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+            },
             colors: {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',

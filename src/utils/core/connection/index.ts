@@ -1,6 +1,6 @@
 import { PortName } from '@/scripts/background/utils/constants'
 import Port from '@/scripts/background/utils/port'
-import { CommandPayload } from '../../scripts/background/utils/command'
+import { CommandPayload } from '../../../scripts/background/utils/command'
 
 export default class Connection {
     private static instance: Connection
@@ -10,9 +10,6 @@ export default class Connection {
         this.port = new Port(
             chrome.runtime.connect({ name: PortName.SUI_WALLET_UI_BACKGROUND }),
         )
-        // this.port = chrome.runtime.connect({
-        //     name: PortName.SUI_WALLET_UI_BACKGROUND,
-        // })
     }
 
     static getInstance() {

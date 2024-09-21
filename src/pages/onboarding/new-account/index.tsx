@@ -16,7 +16,7 @@ import {
     FormMessage,
 } from '@/compoennts/ui/form'
 import { useConnection } from '@/compoennts/connection-provider'
-import { createWalletCommand } from '@/scripts/background/commands'
+import { initPasswordCommand } from '@/scripts/background/commands'
 import OnboardingLayout from '@/layouts/onboarding'
 import { Heading } from '@/compoennts/ui/heading'
 import useStepState from '@/stores/step.store'
@@ -62,9 +62,11 @@ export default function Page() {
                 throw new Error('Connection not found')
             }
 
-            connection.send(createWalletCommand(data.password))
+            await connection.send(initPasswordCommand(data.password))
             nextStep();
-            navigate('/onboarding/backup-and-done')
+            navigate('/onboarding/backup-and-done', {
+                state: {}
+            })
         },
         [],
     )

@@ -1,3 +1,4 @@
+import Session from '@/compoennts/session'
 import { withSuspence } from '@/compoennts/the-suspence'
 import Error from '@/pages/error'
 import { lazy } from 'react'
@@ -9,6 +10,7 @@ const BackupAndDone = lazy(
 )
 
 const NewAccount = lazy(async () => import('../pages/onboarding/new-account'))
+const Home = lazy(async () => import('../pages/home'))
 
 export const routes = [
     {
@@ -28,7 +30,11 @@ export const routes = [
     },
     {
         path: '/home',
-        element: withSuspence(<Welcome />),
+        element: withSuspence(
+            <Session>
+                <Home />
+            </Session>,
+        ),
     },
     {
         path: '/onboarding',

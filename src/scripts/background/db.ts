@@ -1,16 +1,15 @@
-export const DB_NAME = 'MyAppStorage'
-export const DB_VERSION = 1
-export const STORE_NAME = 'data'
+import { StoreName, DB_VERSION } from '@/utils/core/constants'
+
+export const DB_NAME = 'PoseidonSuiDB'
+// export const STORE_NAME = 'data'
 
 export class IndexedDBStorage {
-    private storeName: string
+    #database: IDBDatabase
+    #storeName: string
 
-    private dbVersion: number
-
-    // public db: IDBDatabase | null
-    constructor(storeName: string, dbVersion: number) {
-        this.storeName = storeName
-        this.dbVersion = dbVersion
+    constructor(database: IDBDatabase, storeName: string) {
+        this.#database = database
+        this.#storeName = storeName
     }
 
     private async executeDBOperation(
@@ -19,35 +18,38 @@ export class IndexedDBStorage {
         mode: IDBTransactionMode = 'readwrite',
     ): Promise<Event> {
         return new Promise((resolve, reject) => {
-            this.#getDBObjectStore(mode)
-                .then(objectStore => {
-                    const request = objectStore[method](args)
+            const transaction = this.#database.transaction(
+                [this.#storeName],
+                mode,
+            )
+            const objectStore = transaction.objectStore(this.#storeName)
+            const request = objectStore[method](args)
 
-                    request.onerror = event => reject(event)
-                    request.onsuccess = event => resolve(event)
-                })
-                .catch(err => {
-                    reject(err)
-                })
+            request.onerror = event => reject(event)
+            request.onsuccess = event => resolve(event)
         })
     }
 
-    #getDBObjectStore(mode: IDBTransactionMode) {
-        return new Promise<IDBObjectStore>((resolve, reject) => {
+    public static createConnection() {
+        return new Promise<IDBDatabase>((resolve, reject) => {
             const request = indexedDB.open(DB_NAME, DB_VERSION)
 
-            request.onerror = () => reject(request.error)
+            request.onerror = () => {
+                reject(request.error)
+            }
 
             request.onupgradeneeded = event => {
                 const db = (event.target as IDBOpenDBRequest).result
-                db.createObjectStore(STORE_NAME, { keyPath: 'id' })
+                db.createObjectStore(StoreName.META, { keyPath: 'id' })
+                db.createObjectStore(StoreName.WALLET, { keyPath: 'id' })
             }
 
             request.onsuccess = event => {
-                const db = (event.target as IDBOpenDBRequest).result
-                const transaction = db.transaction([this.storeName], mode)
-                const objectStore = transaction.objectStore(this.storeName)
-                resolve(objectStore)
+                // const db = (event.target as IDBOpenDBRequest).result
+                // const transaction = db.transaction([this.storeName], mode)
+                // const objectStore = transaction.objectStore(this.storeName)
+                // resolve(objectStore)
+                resolve((event.target as IDBOpenDBRequest).result)
             }
         })
     }
@@ -56,7 +58,7 @@ export class IndexedDBStorage {
         // const checksum = this.calculateChecksum(value)
         // await this.validateChecksum(key, data, checksum)
         await this.executeDBOperation(
-            'add',
+            'put',
             { id: key, value: data },
             'readwrite',
         )
@@ -65,7 +67,7 @@ export class IndexedDBStorage {
     async read(key: string, checksum?: string) {
         const event = await this.executeDBOperation('get', key)
         const data = (event.target as any)?.result?.value
-        console.log("event", event)
+        console.log('event', event)
         // await this.validateChecksum(key, data, checksum)
         return data
     }
