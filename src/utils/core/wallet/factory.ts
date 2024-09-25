@@ -38,12 +38,13 @@ export class Factory {
         const encryptedMnemonic = encryptMnemonic(mnemonic, token)
         const address = Ed25519Keypair.deriveKeypair(mnemonic)
             .getPublicKey()
-            .toBase64()
+  
+            console.log('address', address)
 
         return Wallet.buildInstance({
             id: '1',
             name: 'wallet',
-            address,
+            address: address.toSuiAddress(),
             encryptMnemonic: encryptedMnemonic.toString('hex'),
             isImported: false,
         })

@@ -1,7 +1,6 @@
 import { StoreName, DB_VERSION } from '@/utils/core/constants'
 
 export const DB_NAME = 'PoseidonSuiDB'
-// export const STORE_NAME = 'data'
 
 export class IndexedDBStorage {
     #database: IDBDatabase
@@ -35,6 +34,7 @@ export class IndexedDBStorage {
             const request = indexedDB.open(DB_NAME, DB_VERSION)
 
             request.onerror = () => {
+                console.error('Failed to open indexedDB')
                 reject(request.error)
             }
 
@@ -51,6 +51,7 @@ export class IndexedDBStorage {
                 // resolve(objectStore)
                 resolve((event.target as IDBOpenDBRequest).result)
             }
+            
         })
     }
 
@@ -87,16 +88,3 @@ export class IndexedDBStorage {
     //     }
     // }
 }
-
-// export function stringToArrayBuffer(str: string) {
-//     const buffer = new ArrayBuffer(str.length * 2) // 2 bytes for each char
-//     const view = new Uint16Array(buffer)
-//     for (let i = 0; i < str.length; i++) {
-//         view[i] = str.charCodeAt(i)
-//     }
-//     return buffer
-// }
-
-// export function arrayBufferToString(buffer: ArrayBuffer) {
-//     return String.fromCharCode.apply(null, new Uint16Array(buffer))
-// }

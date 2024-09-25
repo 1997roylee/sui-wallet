@@ -10,6 +10,8 @@ export const getWalletCommand = createCommandPayload('getWallet')
 export const initPasswordCommand = createCommandPayload('initPassword')
 export const revealMnemonicCommand = createCommandPayload('revealMnemonic')
 export const verifyPasswordCommand = createCommandPayload('verifyPassword')
+export const getIsAuthedCommand = createCommandPayload('getIsAuthed')
+
 
 export interface CommandCallbackPayload {
     auth: Auth
@@ -42,7 +44,7 @@ export const commands = [
     }),
     createCommand({
         name: 'getWallet',
-        callback: async ({ db, auth, data }: CommandCallbackPayload) => {
+        callback: async ({ db, auth }: CommandCallbackPayload) => {
             const token = await auth.getToken()
 
             if (!token) {
@@ -70,6 +72,12 @@ export const commands = [
         name: 'verifyPassword',
         callback: async ({ auth, data }: CommandCallbackPayload) => {
             return auth.verifyPassword(data)
+        },
+    }),
+    createCommand({
+        name: 'getIsAuthed',
+        callback: async ({ auth }: CommandCallbackPayload) => {
+            return auth.getIsAuthorized()
         },
     }),
     createCommand({

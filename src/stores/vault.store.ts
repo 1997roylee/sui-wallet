@@ -1,6 +1,6 @@
 import Vault from '@/utils/core/vault'
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 
 export interface VaultState {
     vault: Vault | null

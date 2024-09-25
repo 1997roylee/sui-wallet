@@ -1,5 +1,6 @@
 import Session from './session'
-import { password2Token, newToken, validateToken } from './utils'
+import { password2Token, newToken } from './utils'
+import * as crypto from './crypto'
 import { MetaStorage } from './storages/meta-storage'
 import CryptoJS from 'crypto-js'
 
@@ -10,7 +11,7 @@ export async function validateAuthToken(storage: MetaStorage, token: string) {
         throw new Error('Meta not found')
     }
 
-    return validateToken(token, meta.cipher)
+    return crypto.validateToken(token, meta.cipher)
 }
 
 export class Auth {
@@ -26,7 +27,7 @@ export class Auth {
             throw new Error('Password must be at least 6 characters')
         }
 
-        const { cipher, token } = newToken(password)
+        const { cipher } = newToken(password)
         const meta = {
             walletId: 1,
             walletVersion: 1,
@@ -40,8 +41,25 @@ export class Auth {
     }
 
     public async verifyPassword(password: string) {
-        const token = await this.createTokenByPassword(password)
-        return (await this.#session.getToken()) === token.toString()
+        // const newToken = await this.createTokenByPassword(password)
+
+        const meta = await this.#storage.loadMeta()
+
+        if (!meta) {
+            throw new Error('Meta not found')
+        }
+
+        const salt = CryptoJS.enc.Hex.parse(meta.cipher.salt)
+
+        const token = password2Token(password, salt)
+
+        if (!crypto.validateToken(token.toString(), meta.cipher)) {
+            throw new Error('Invalid password')
+        }
+
+        this.login(password)
+        return token.toString()
+        // return (await this.#session.getToken()) === token.toString()
     }
 
     // public async logout() {
@@ -57,21 +75,24 @@ export class Auth {
         return this.#session.getToken()
     }
 
+    public async getIsAuthorized() {
+        console.log('session', this.#session)
+        return this.#session.isAuthorized
+    }
+
     public async createTokenByPassword(password: string) {
         const meta = await this.#storage.loadMeta()
 
-        console.log('meta', meta)
         if (!meta) {
             throw new Error('Meta not found')
         }
-        // const now = Date.now()
+
         const salt = CryptoJS.enc.Hex.parse(meta.cipher.salt)
 
         const token = password2Token(password, salt)
 
-        console.log('token', token.toString(), salt)
-
-        if (!validateToken(token.toString(), meta.cipher))
+        console.log("token", token.toString())
+        if (!crypto.validateToken(token.toString(), meta.cipher))
             throw new Error('Invalid password')
 
         return token

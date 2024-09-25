@@ -1,5 +1,7 @@
+import Onboard from '@/compoennts/onboard'
 import Session from '@/compoennts/session'
 import { withSuspence } from '@/compoennts/the-suspence'
+import WalletProvider from '@/compoennts/wallet-provider'
 import Error from '@/pages/error'
 import { lazy } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
@@ -16,25 +18,25 @@ export const routes = [
     {
         path: '/',
         element: (
-            <div>
-                <Outlet />
-            </div>
+            <Onboard>
+                <Session>
+                    <WalletProvider>
+                        <Outlet />
+                    </WalletProvider>
+                </Session>
+            </Onboard>
         ),
         errorElement: <Error />,
         children: [
             {
                 index: true,
-                element: <Navigate to="/onboarding" replace />,
+                element: <Navigate to="/home" replace />,
+            },
+            {
+                path: '/home',
+                element: withSuspence(<Home />),
             },
         ],
-    },
-    {
-        path: '/home',
-        element: withSuspence(
-            <Session>
-                <Home />
-            </Session>,
-        ),
     },
     {
         path: '/onboarding',
@@ -57,6 +59,6 @@ export const routes = [
     },
     {
         path: '*',
-        element: <Navigate to="/onboarding" />,
+        element: <Navigate to="/home" />,
     },
 ]

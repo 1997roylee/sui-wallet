@@ -79,12 +79,3 @@ export function password2Token(password: string, salt: CryptoJS.lib.WordArray) {
     })
     return hash
 }
-
-export function validateToken(token: string, cipher: Cipher): boolean {
-    const aesCtr = new ModeOfOperation.ctr(Buffer.from(token))
-
-    const data = Buffer.from(cipher.data, 'hex')
-    const secretBytes = aesCtr.decrypt(data)
-    const secret = new TextDecoder().decode(secretBytes)
-    return secret === WALLET_MASTER_SECRET
-}

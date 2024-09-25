@@ -12,12 +12,12 @@ export default defineManifest(async env => ({
     },
     background: {
         service_worker: 'src/scripts/background/index.ts',
-        type: 'module',
     },
     content_scripts: [
         {
-            matches: ['http://localhost:*/*'],
-            js: ['src/scripts/hello.ts'],
+            matches: ['http://*/*'],
+            // matches: ['http://*/*', 'https://*/*'],
+            js: ['src/scripts/content/index.ts'],
             run_at: 'document_start',
         },
     ],
