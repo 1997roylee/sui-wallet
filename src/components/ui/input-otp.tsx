@@ -37,6 +37,18 @@ const InputOTPSlot = React.forwardRef<
     const inputOTPContext = React.useContext(OTPInputContext)
     const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]
 
+    const [digit, setDigit] = React.useState(char)
+
+    React.useEffect(() => {
+        setDigit(char)
+        if (!char) return
+
+        const timeout = setTimeout(() => {
+            setDigit('*')
+        }, 650)
+        return () => clearTimeout(timeout)
+    }, [char])
+
     return (
         <div
             ref={ref}
@@ -47,7 +59,7 @@ const InputOTPSlot = React.forwardRef<
             )}
             {...props}
         >
-            {char}
+            {isActive ? char : digit}
             {hasFakeCaret && (
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
                     <div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" />

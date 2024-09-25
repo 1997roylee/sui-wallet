@@ -100,7 +100,7 @@ export default function Page() {
                                         Create a PIN
                                     </FormLabel>
                                     <FormControl>
-                                        <InputOTP maxLength={6} {...field} type='password'>
+                                        <InputOTP maxLength={6} {...field}>
                                             <InputOTPGroup>
                                                 <InputOTPSlot index={0} />
                                                 <InputOTPSlot index={1} />
