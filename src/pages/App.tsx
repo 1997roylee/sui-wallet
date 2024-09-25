@@ -1,7 +1,7 @@
 import RootLayout from '@/layouts/root'
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import { routes } from '@/routes'
-import Providers from '@/compoennts/providers'
+import Providers from '@/components/providers'
 import '@/assets/fonts/line/font.css'
 
 const router = createHashRouter(routes)

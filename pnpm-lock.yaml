@@ -23,6 +23,9 @@ importers:
       '@mysten/wallet-standard':
         specifier: ^0.13.4
         version: 0.13.4(typescript@5.6.2)
+      '@mysten/zklogin':
+        specifier: ^0.7.20
+        version: 0.7.20(typescript@5.6.2)
       '@mysten/zksend':
         specifier: ^0.11.3
         version: 0.11.3(typescript@5.6.2)
@@ -68,6 +71,9 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
+      input-otp:
+        specifier: ^1.2.4
+        version: 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -888,12 +894,19 @@ packages:
   '@mysten/bcs@1.0.4':
     resolution: {integrity: sha512-6JoQi59GN/dVEBCNq8Rj4uOR0niDrJqDx/2gNQWXANwJakHIGH0AMniHrXP41B2dF+mZ3HVmh9Hi3otiEVQTrQ==}
 
+  '@mysten/sui@1.10.0':
+    resolution: {integrity: sha512-N+JwsYt//XOaNcQeYqjBqvAb39PUXO9WyJwc3xBk1QutITnB4kwtkrGUU0HEW+AzO2zU9e4eFgGIcTfsuDX9ug==}
+    engines: {node: '>=18'}
+
   '@mysten/sui@1.9.0':
     resolution: {integrity: sha512-AcnwVK7ro8+GWAp/vz0V35naS1/PD1FkYlH6rglupKWvVIpnmEBgjr+XE7U4LvtAyoXPiE4uj/MhXLIx5rZuzw==}
     engines: {node: '>=18'}
 
   '@mysten/wallet-standard@0.13.4':
     resolution: {integrity: sha512-uVN/6BJLhharDCiCCaB4uJ+cVRLMyHDU/QbZwL1agSwb+NX4/lDSaVso2DjQClpgcrR4fiBVfQsE9sIYPIDrbQ==}
+
+  '@mysten/zklogin@0.7.20':
+    resolution: {integrity: sha512-cGOmaB+MGfEEl6u+AyCLf2ebfhnUTMAG8xYWHtRS/oN9QXSYQCB3lFLg5xvjkxc9ekUJD/50pZioJ/VnaEjcDA==}
 
   '@mysten/zksend@0.11.3':
     resolution: {integrity: sha512-AQpVhlmWpuRwWZeE+b3aPVtKSFt3LI7l3pQOEcLF6tB37KSx7MMxr/uug43OoIprx9vgafwdxomRqWprdeR2MQ==}
@@ -2632,6 +2645,12 @@ packages:
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
 
+  input-otp@1.2.4:
+    resolution: {integrity: sha512-md6rhmD+zmMnUh5crQNSQxq3keBRYvE3odbr4Qb9g2NWzQv9azi+t1a3X4TBTbh98fsGHgEEJlzbe1q860uGCA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+
   inquirer@8.2.6:
     resolution: {integrity: sha512-M1WuAmb7pn9zdFRtQYk26ZBoY043Sse0wVDdk4Bppr+JOXyQYybdtvK+l9wUibhtjdjvtoiNy8tk+EgsYIUqKg==}
     engines: {node: '>=12.0.0'}
@@ -3306,6 +3325,9 @@ packages:
   pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
+
+  poseidon-lite@0.2.1:
+    resolution: {integrity: sha512-xIr+G6HeYfOhCuswdqcFpSX47SPhm0EpisWJ6h7fHlWwaVIvH3dLnejpatrtw6Xc6HaLrpq05y7VRfvDmDGIog==}
 
   possible-typed-array-names@1.0.0:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}
@@ -5267,6 +5289,25 @@ snapshots:
     dependencies:
       bs58: 6.0.0
 
+  '@mysten/sui@1.10.0(typescript@5.6.2)':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
+      '@mysten/bcs': 1.0.4
+      '@noble/curves': 1.6.0
+      '@noble/hashes': 1.5.0
+      '@scure/bip32': 1.5.0
+      '@scure/bip39': 1.4.0
+      '@suchipi/femver': 1.0.0
+      bech32: 2.0.0
+      gql.tada: 1.8.7(graphql@16.9.0)(typescript@5.6.2)
+      graphql: 16.9.0
+      tweetnacl: 1.0.3
+      valibot: 0.36.0
+    transitivePeerDependencies:
+      - '@gql.tada/svelte-support'
+      - '@gql.tada/vue-support'
+      - typescript
+
   '@mysten/sui@1.9.0(typescript@5.6.2)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
@@ -5290,6 +5331,18 @@ snapshots:
     dependencies:
       '@mysten/sui': 1.9.0(typescript@5.6.2)
       '@wallet-standard/core': 1.0.3
+    transitivePeerDependencies:
+      - '@gql.tada/svelte-support'
+      - '@gql.tada/vue-support'
+      - typescript
+
+  '@mysten/zklogin@0.7.20(typescript@5.6.2)':
+    dependencies:
+      '@mysten/bcs': 1.0.4
+      '@mysten/sui': 1.10.0(typescript@5.6.2)
+      '@noble/hashes': 1.5.0
+      jose: 5.9.3
+      poseidon-lite: 0.2.1
     transitivePeerDependencies:
       - '@gql.tada/svelte-support'
       - '@gql.tada/vue-support'
@@ -7262,6 +7315,11 @@ snapshots:
 
   inherits@2.0.4: {}
 
+  input-otp@1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   inquirer@8.2.6:
     dependencies:
       ansi-escapes: 4.3.2
@@ -7925,6 +7983,8 @@ snapshots:
   pify@3.0.0: {}
 
   pirates@4.0.6: {}
+
+  poseidon-lite@0.2.1: {}
 
   possible-typed-array-names@1.0.0: {}
 

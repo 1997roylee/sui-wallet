@@ -8,15 +8,15 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '@/compoennts/ui/form'
+} from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
-import { useConnection } from '@/compoennts/connection-provider'
+import { useConnection } from '@/components/connection-provider'
 import { useNavigate } from 'react-router-dom'
 import { useCallback } from 'react'
 import { verifyPasswordCommand } from '@/scripts/background/commands'
-import { Input } from '@/compoennts/ui/input'
-import { Button } from '@/compoennts/ui/button'
-import { Heading } from '@/compoennts/ui/heading'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Heading } from '@/components/ui/heading'
 import { useAppState } from '@/stores/app.store'
 
 const passwordCchema = z.object({

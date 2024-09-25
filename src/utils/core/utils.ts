@@ -59,7 +59,7 @@ export function encryptPrivate(token: Buffer, privateKey: ArrayBuffer): Buffer {
 
 export function newToken(password: string): Token {
     const salt = CryptoJS.lib.WordArray.random(128 / 8)
-    console.log('salt', salt)
+    // console.log('salt', salt)
     const token = password2Token(password, salt)
     const aesCtr = new ModeOfOperation.ctr(Buffer.from(token.toString(CryptoJS.enc.Hex)))
     const secretBytes = new TextEncoder().encode(WALLET_MASTER_SECRET)

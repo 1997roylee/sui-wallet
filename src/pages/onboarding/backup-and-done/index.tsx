@@ -1,8 +1,8 @@
-import { useConnection } from '@/compoennts/connection-provider'
-import { Button } from '@/compoennts/ui/button'
-import { Checkbox } from '@/compoennts/ui/check-box'
-import { Heading } from '@/compoennts/ui/heading'
-import { Label } from '@/compoennts/ui/label'
+import { useConnection } from '@/components/connection-provider'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/check-box'
+import { Heading } from '@/components/ui/heading'
+import { Label } from '@/components/ui/label'
 import OnboardingLayout from '@/layouts/onboarding'
 import { cn } from '@/lib/utils'
 import {

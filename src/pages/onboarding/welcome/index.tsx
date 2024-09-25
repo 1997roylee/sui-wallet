@@ -1,5 +1,5 @@
-import { Button } from '@/compoennts/ui/button'
-import { Heading } from '@/compoennts/ui/heading'
+import { Button } from '@/components/ui/button'
+import { Heading } from '@/components/ui/heading'
 import OnboardingLayout from '@/layouts/onboarding'
 import { Link } from 'react-router-dom'
 

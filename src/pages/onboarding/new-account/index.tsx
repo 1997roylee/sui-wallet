@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
-import { Button } from '@/compoennts/ui/button'
-import { Input } from '@/compoennts/ui/input'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { useNavigate } from 'react-router-dom'
-import { Checkbox } from '@/compoennts/ui/check-box'
+import { Checkbox } from '@/components/ui/check-box'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,12 +14,18 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '@/compoennts/ui/form'
-import { useConnection } from '@/compoennts/connection-provider'
+} from '@/components/ui/form'
+import { useConnection } from '@/components/connection-provider'
 import { initPasswordCommand } from '@/scripts/background/commands'
 import OnboardingLayout from '@/layouts/onboarding'
-import { Heading } from '@/compoennts/ui/heading'
+import { Heading } from '@/components/ui/heading'
 import useStepState from '@/stores/step.store'
+import {
+    InputOTP,
+    InputOTPGroup,
+    // InputOTPSeparator,
+    InputOTPSlot,
+} from '@/components/ui/input-otp'
 
 const passwordCchema = z
     .object({
@@ -37,7 +43,7 @@ const passwordCchema = z
 export default function Page() {
     const navigate = useNavigate()
 
-    const {nextStep} =useStepState();
+    const { nextStep } = useStepState()
     const connection = useConnection()
 
     const form = useForm<z.infer<typeof passwordCchema>>({
@@ -63,9 +69,9 @@ export default function Page() {
             }
 
             await connection.send(initPasswordCommand(data.password))
-            nextStep();
+            nextStep()
             navigate('/onboarding/backup-and-done', {
-                state: {}
+                state: {},
             })
         },
         [],
@@ -77,7 +83,7 @@ export default function Page() {
         <OnboardingLayout>
             <div className="flex flex-col gap-3">
                 <div>
-                    <Heading size='h3'>Create a password</Heading>
+                    <Heading size="h3">Create a password</Heading>
                     <Heading>You will use this to unlock your wallet</Heading>
                 </div>
                 <Form {...form}>
@@ -90,13 +96,20 @@ export default function Page() {
                             name="password"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel />
+                                    <FormLabel >
+                                        Create a PIN
+                                    </FormLabel>
                                     <FormControl>
-                                        <Input
-                                            placeholder="Password"
-                                            type="password"
-                                            {...field}
-                                        />
+                                        <InputOTP maxLength={6} {...field} type='password'>
+                                            <InputOTPGroup>
+                                                <InputOTPSlot index={0} />
+                                                <InputOTPSlot index={1} />
+                                                <InputOTPSlot index={2} />
+                                                <InputOTPSlot index={3} />
+                                                <InputOTPSlot index={4} />
+                                                <InputOTPSlot index={5} />
+                                            </InputOTPGroup>
+                                        </InputOTP>
                                     </FormControl>
                                     <FormDescription />
                                     <FormMessage />
@@ -108,13 +121,20 @@ export default function Page() {
                             name="confirmPassword"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel />
+                                    <FormLabel >
+                                        Confirm your PIN
+                                    </FormLabel>
                                     <FormControl>
-                                        <Input
-                                            placeholder="Confirm Password"
-                                            type="password"
-                                            {...field}
-                                        />
+                                        <InputOTP maxLength={6} {...field}>
+                                            <InputOTPGroup>
+                                                <InputOTPSlot index={0} />
+                                                <InputOTPSlot index={1} />
+                                                <InputOTPSlot index={2} />
+                                                <InputOTPSlot index={3} />
+                                                <InputOTPSlot index={4} />
+                                                <InputOTPSlot index={5} />
+                                            </InputOTPGroup>
+                                        </InputOTP>
                                     </FormControl>
                                     <FormDescription />
                                     <FormMessage />
@@ -132,14 +152,19 @@ export default function Page() {
                                             onCheckedChange={field.onChange}
                                         />
                                     </FormControl>
-                                    <FormLabel className='font-normal !mt-0 pl-2'>
+                                    <FormLabel className="font-normal !mt-0 pl-2">
                                         I agree to the Term of Service
                                     </FormLabel>
                                 </FormItem>
                             )}
                         />
 
-                        <Button className="w-full" type="submit" size='lg' disabled={disabledButton}>
+                        <Button
+                            className="w-full"
+                            type="submit"
+                            size="lg"
+                            disabled={disabledButton}
+                        >
                             Continue
                         </Button>
                     </form>

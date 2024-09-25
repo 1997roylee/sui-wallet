@@ -35,7 +35,6 @@ const storage: PersistStorage<AppState> = {
             return null
         }
 
-        console.log('getItem', key, superjson.parse(results?.[key]))
         return superjson.parse(results?.[key])
     },
     setItem: async (key: string, value: any) => {

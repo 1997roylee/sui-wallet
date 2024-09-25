@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
 import { ArrowLeft } from 'lucide-react'
-import { Button } from '@/compoennts/ui/button'
+import { Button } from '@/components/ui/button'
 import useStepState from '@/stores/step.store'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/lib/utils'
